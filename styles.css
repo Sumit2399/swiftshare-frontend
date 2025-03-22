@@ -1,0 +1,317 @@
+/* ========== UPLOAD STYLES ========== */
+
+/* Upload container */
+.upload-container {
+    max-width: 90%;
+    height: 90vh;
+    margin: 3vh auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Upload heading */
+  .upload-heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Upload text area */
+  .upload-textarea {
+    width: 95%;
+    height: 60vh;
+    padding: 15px;
+    font-size: 18px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    resize: none;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Uploaded Image */
+  .upload-image {
+    width: 90%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+  
+  /* Upload Button */
+  .upload-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #007bff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .upload-button:hover {
+    background: #0056b3;
+  }
+  
+  /* Session ID */
+  .upload-session-id {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #007bff;
+  }
+  /* ========== SESSION ID COPY BUTTON ========== */
+.session-container {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .session-id {
+    background: #475569;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    white-space: nowrap;
+  }
+  
+  .copy-button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .copy-button:hover {
+    background: #16a34a;
+  }
+  
+  
+  /* ========== RETRIEVE STYLES ========== */
+  
+  /* Retrieve container */
+  .retrieve-container {
+    max-width: 80%;
+    margin: 5vh auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Retrieve heading */
+  .retrieve-heading {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Retrieve input field */
+  .retrieve-input {
+    width: 80%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    text-align: center;
+  }
+  
+  /* Retrieve Button */
+  .retrieve-button {
+    margin-top: 15px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #28a745;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .retrieve-button:hover {
+    background: #218838;
+  }
+  
+  /* Retrieved Content */
+  .retrieve-content {
+    margin-top: 20px;
+    padding: 15px;
+    width: 100%;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Retrieved Text */
+  .retrieve-text {
+    font-size: 18px;
+    color: #333;
+    margin-top: 5px;
+  }
+  
+  /* Retrieved Image */
+  .retrieve-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+  /* ========== NAVBAR STYLES ========== */
+
+/* ========== NAVBAR STYLES ========== */
+
+/* Navbar container */
+.navbar {
+    width: 100%;
+    background: #007bff; /* Smooth blue */
+    padding: 12px 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Navbar logo */
+  .navbar-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+  }
+  
+  /* Navbar links container */
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Navbar links */
+  .navbar-links li {
+    display: inline;
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s ease-in-out;
+    padding: 8px 14px;
+    border-radius: 6px;
+  }
+  
+  /* Hover effect for links */
+  .navbar-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #f1f1f1;
+  }
+  
+  /* Responsive Navbar (for smaller screens) */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+  
+    .navbar-links {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+  
+    .navbar-links a {
+      font-size: 15px;
+      padding: 6px 10px;
+    }
+  }
+  
+  
+  /* ========== ABOUT PAGE STYLES ========== */
+
+.about-container {
+    max-width: 800px;  /* Limits width for readability */
+    margin: 100px auto; /* Centers content & prevents cut-off */
+    padding: 20px;  /* Adds spacing */
+    text-align: center;  /* Centers text */
+    background: #f8f9fa; /* Light gray background */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ensures responsiveness */
+  @media (max-width: 768px) {
+    .about-container {
+      width: 90%;
+      margin: 80px auto;
+    }
+  }
+  
+  /* ========== HOME PAGE STYLES ========== */
+
+.home-container {
+    max-width: 800px;  /* Restrict width for good readability */
+    margin: 100px auto; /* Center the content */
+    padding: 30px;
+    text-align: center;
+    background: #f1f5f9; /* Light bluish-gray */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-container h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .home-container p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* Ensures responsiveness */
+  @media (max-width: 768px) {
+    .home-container {
+      width: 90%;
+      margin: 80px auto;
+      padding: 20px;
+    }
+  }
+  
