@@ -1,10 +1,28 @@
-import React, { useState } from "react";
-import { uploadContent } from "../services/api";
+import React, { useState, useEffect } from "react";
+import { uploadContent, retrieveContent } from "../services/api";
 
 const Upload = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
-  const [sessionId, setSessionId] = useState("");
+  const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
+
+  useEffect(() => {
+    if (sessionId) {
+      // Retrieve existing content from backend
+      retrieveContent(sessionId)
+        .then((response) => {
+          if (response.data) {
+            setText(response.data.text || "");
+            setImage(response.data.image || "");
+          }
+        })
+        .catch((error) => console.error("Error fetching existing content:", error));
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    localStorage.setItem("sessionId", sessionId);
+  }, [sessionId]);
 
   const handlePaste = (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
@@ -20,12 +38,15 @@ const Upload = () => {
 
   const handleUpload = async () => {
     try {
-      const response = await uploadContent({ text, image });
+      const response = await uploadContent({ text, image, sessionId }); // Send sessionId to overwrite
       setSessionId(response.data.sessionId);
+      localStorage.setItem("sessionId", response.data.sessionId); // Save in localStorage
     } catch (error) {
       console.error("Upload failed:", error);
     }
   };
+  
+  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(sessionId);
