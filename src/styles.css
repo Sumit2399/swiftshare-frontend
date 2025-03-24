@@ -107,8 +107,8 @@
   
   /* ========== RETRIEVE STYLES ========== */
   
-  /* Retrieve container */
-  .retrieve-container {
+   /* Retrieve container */
+   .retrieve-container {
     max-width: 80%;
     margin: 5vh auto;
     padding: 20px;
@@ -159,22 +159,27 @@
   }
   
   /* Retrieved Content */
-  .retrieve-content {
+.retrieve-content {
     margin-top: 20px;
     padding: 15px;
     width: 100%;
+    height: 80vh; /* Cover most of the screen */
     background: #f8f9fa;
     border-radius: 10px;
     text-align: left;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    overflow-y: auto; /* Add scrollbar if content overflows */
+    white-space: pre-wrap; /* Preserve line breaks & spacing */
   }
   
   /* Retrieved Text */
   .retrieve-text {
     font-size: 18px;
     color: #333;
-    margin-top: 5px;
+    white-space: pre-wrap; /* Ensure text structure remains */
+    word-wrap: break-word; /* Prevent long words from breaking layout */
   }
+  
   
   /* Retrieved Image */
   .retrieve-image {
