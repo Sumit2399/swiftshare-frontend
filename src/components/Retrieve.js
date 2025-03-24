@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { retrieveContent } from "../services/api";
-import "../styles.css"; // Import styles
+import "../styles.css"; // Ensure CSS is imported
 
 const Retrieve = () => {
-  const [sessionId, setSessionId] = useState("");
+  const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
   const [content, setContent] = useState(null);
+
+  useEffect(() => {
+    // Store session ID in localStorage whenever it changes
+    if (sessionId) {
+      localStorage.setItem("sessionId", sessionId);
+    }
+  }, [sessionId]);
 
   const handleRetrieve = async () => {
     try {
