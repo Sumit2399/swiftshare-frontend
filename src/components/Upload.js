@@ -1,34 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { uploadContent } from "../services/api";
-import "../styles.css";
+import { uploadContent, retrieveContent } from "../services/api";
 
 const Upload = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
-  const [expiration, setExpiration] = useState(localStorage.getItem("expiration") || null);
-  const [countdown, setCountdown] = useState("");
 
+  // Load saved content only if text/image is empty
   useEffect(() => {
-    if (sessionId) localStorage.setItem("sessionId", sessionId);
-    if (expiration) localStorage.setItem("expiration", expiration);
-  }, [sessionId, expiration]);
+    if (sessionId && !text && !image) {
+      retrieveContent(sessionId)
+        .then((response) => {
+          if (response.data) {
+            setText(response.data.text || "");
+            setImage(response.data.image || "");
+          }
+        })
+        .catch((error) => console.error("Error fetching existing content:", error));
+    }
+  }, [sessionId]);
 
+  // Save sessionId to localStorage whenever it changes
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!expiration) return;
-      const timeLeft = new Date(expiration) - new Date();
-      if (timeLeft <= 0) {
-        setCountdown("Expired");
-        clearInterval(interval);
-      } else {
-        const minutes = Math.floor(timeLeft / 60000);
-        const seconds = Math.floor((timeLeft % 60000) / 1000);
-        setCountdown(`${minutes}m ${seconds}s`);
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [expiration]);
+    localStorage.setItem("sessionId", sessionId);
+  }, [sessionId]);
 
   const handlePaste = (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
@@ -44,9 +39,9 @@ const Upload = () => {
 
   const handleUpload = async () => {
     try {
-      const response = await uploadContent({ text, image });
+      const response = await uploadContent({ text, image, sessionId }); // Overwrites if sessionId exists
       setSessionId(response.data.sessionId);
-      setExpiration(response.data.expiration);
+      localStorage.setItem("sessionId", response.data.sessionId);
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -72,9 +67,8 @@ const Upload = () => {
 
       {sessionId && (
         <div className="session-container">
-          <p>Session ID: <span className="session-id">{sessionId}</span></p>
-          <button onClick={handleCopy} className="copy-button">Copy</button>
-          <p>Expires in: <span className="countdown">{countdown}</span></p>
+          <span className="session-id">{sessionId}</span>
+          <button className="copy-button" onClick={handleCopy}>Copy</button>
         </div>
       )}
     </div>
