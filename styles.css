@@ -183,6 +183,31 @@
     object-fit: cover;
     border-radius: 10px;
     margin-top: 15px;
+
+
+    .retrieve-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.copy-text-button {
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  background: #17a2b8; /* teal blue */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.copy-text-button:hover {
+  background: #138496;
+}
+  
   }
   /* ========== NAVBAR STYLES ========== */
 
