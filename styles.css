@@ -138,6 +138,11 @@
   color: #ff0000;
   font-weight: 500;
 }
+.countdown-timer {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #e63946;
+}
  /* ========== ========== */
 
 
