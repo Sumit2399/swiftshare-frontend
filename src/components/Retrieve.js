@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { retrieveContent } from "../services/api";
-import "../styles.css";
+import "../styles.css"; // Make sure styles are imported
 
 const Retrieve = () => {
   const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
@@ -38,14 +38,17 @@ const Retrieve = () => {
         onChange={(e) => setSessionId(e.target.value)}
       />
 
-      <button onClick={handleRetrieve} className="retrieve-button">Retrieve</button>
+      <div className="retrieve-actions">
+        <button onClick={handleRetrieve} className="retrieve-button">Retrieve</button>
+        {content?.text && (
+          <button onClick={copyToClipboard} className="copy-text-button">Copy Text</button>
+        )}
+      </div>
 
       {content && (
         <div className="retrieve-content">
           <h3>Retrieved Text:</h3>
           <p className="retrieve-text">{content.text}</p>
-
-          <button className="copy-button" onClick={copyToClipboard}>Copy Text</button>
 
           {content.image && (
             <>
