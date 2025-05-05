@@ -66,7 +66,9 @@ const Upload = () => {
     try {
       const response = await uploadContent({ text, image, sessionId }); // keep session ID
       setSessionId(response.data.sessionId);
+      localStorage.setItem("sessionId", response.data.sessionId); // Save in localStorage
       setExpiration(new Date(response.data.expiration));
+      
     } catch (error) {
       console.error("Upload failed:", error);
     }
