@@ -41,7 +41,7 @@ const Retrieve = () => {
       <div className="retrieve-actions">
         <button onClick={handleRetrieve} className="retrieve-button">Retrieve</button>
         {content?.text && (
-          <button onClick={copyToClipboard} className="copy-text-button">Copy Text</button>
+          <button onClick={copyToClipboard} className="retrieve-button">Copy Text</button>
         )}
       </div>
 
