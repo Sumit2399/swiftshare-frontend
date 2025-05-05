@@ -8,7 +8,7 @@ const Upload = () => {
   const [expiration, setExpiration] = useState(null);
   const [countdown, setCountdown] = useState("");
 
-  // Load session data on mount
+  // Retrieve content on load if sessionId exists
   useEffect(() => {
     if (sessionId) {
       retrieveContent(sessionId)
@@ -16,32 +16,34 @@ const Upload = () => {
           if (response.data) {
             setText(response.data.text || "");
             setImage(response.data.image || "");
-            setExpiration(response.data.expiration);
+            setExpiration(new Date(response.data.expiration));
           }
         })
         .catch((error) => console.error("Error fetching existing content:", error));
     }
   }, [sessionId]);
 
-  // Save sessionId to localStorage
+  // Save sessionId locally
   useEffect(() => {
     localStorage.setItem("sessionId", sessionId);
   }, [sessionId]);
 
-  // Expiry countdown
+  // Update countdown every second
   useEffect(() => {
     if (!expiration) return;
 
     const interval = setInterval(() => {
-      const timeLeft = new Date(expiration).getTime() - Date.now();
-      if (timeLeft <= 0) {
-        clearInterval(interval);
+      const now = new Date();
+      const diff = new Date(expiration) - now;
+
+      if (diff <= 0) {
         setCountdown("Expired");
+        clearInterval(interval);
       } else {
-        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const hours = Math.floor((diff / 1000 / 60 / 60) % 24);
+        const days = Math.floor(diff / 1000 / 60 / 60 / 24);
+        setCountdown(`${days}d ${hours}h ${minutes}m`);
       }
     }, 1000);
 
@@ -62,10 +64,9 @@ const Upload = () => {
 
   const handleUpload = async () => {
     try {
-      const response = await uploadContent({ text, image, sessionId });
+      const response = await uploadContent({ text, image, sessionId }); // keep session ID
       setSessionId(response.data.sessionId);
-      setExpiration(response.data.expiration);
-      localStorage.setItem("sessionId", response.data.sessionId);
+      setExpiration(new Date(response.data.expiration));
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -96,9 +97,9 @@ const Upload = () => {
         </div>
       )}
 
-      {expiration && (
-        <div className="countdown-container">
-          <p>Session expires in: <strong>{countdown}</strong></p>
+      {countdown && (
+        <div className="countdown-timer">
+          <strong>Expires in:</strong> {countdown}
         </div>
       )}
     </div>
