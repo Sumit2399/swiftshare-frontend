@@ -6,7 +6,7 @@ const Home = () => {
     <div className="home-container">
       <h1>Welcome to SwiftShare</h1>
       <p>Fast, anonymous content sharing.</p>
-      <p>Upload text or images and retrieve them using a unique session ID.</p>
+      <p>Upload text and retrieve them using a unique session ID.</p>
     </div>
   );
 };
