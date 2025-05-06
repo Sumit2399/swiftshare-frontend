@@ -88,7 +88,6 @@ const Upload = () => {
         <div className="session-container">
           <span className="session-id">Session ID: {sessionId}</span>
           <button className="copy-button" onClick={handleCopyId}>Copy ID</button>
-          <button className="copy-link-button" onClick={handleCopyLink}>Copy Link</button>
         </div>
       )}
 
