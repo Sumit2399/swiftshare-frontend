@@ -6,11 +6,9 @@ const Upload = () => {
   const [image, setImage] = useState("");
   const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
   const [expiration, setExpiration] = useState(null);
-  const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
     if (sessionId) {
-      // Retrieve existing content from backend
       retrieveContent(sessionId)
         .then((response) => {
           if (response.data) {
@@ -29,27 +27,6 @@ const Upload = () => {
     localStorage.setItem("sessionId", sessionId);
   }, [sessionId]);
 
-  useEffect(() => {
-    if (!expiration) return;
-
-    const interval = setInterval(() => {
-      const now = new Date();
-      const diff = new Date(expiration) - now;
-
-      if (diff <= 0) {
-        setCountdown("Expired");
-        clearInterval(interval);
-      } else {
-        const minutes = Math.floor((diff / 1000 / 60) % 60);
-        const hours = Math.floor((diff / 1000 / 60 / 60) % 24);
-        const days = Math.floor(diff / 1000 / 60 / 60 / 24);
-        setCountdown(`${days}d ${hours}h ${minutes}m`);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [expiration]);
-
   const handlePaste = (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
     for (let item of items) {
@@ -64,20 +41,34 @@ const Upload = () => {
 
   const handleUpload = async () => {
     try {
-      const response = await uploadContent({ text, image, sessionId }); // Send sessionId to overwrite
+      const response = await uploadContent({ text, image, sessionId });
       setSessionId(response.data.sessionId);
-      localStorage.setItem("sessionId", response.data.sessionId); // Save in localStorage
-      if (response.data.expiration) {
-        setExpiration(new Date(response.data.expiration));
-      }
+      setExpiration(new Date(response.data.expiration));
+      localStorage.setItem("sessionId", response.data.sessionId);
     } catch (error) {
       console.error("Upload failed:", error);
     }
   };
 
-  const handleCopy = () => {
+  const handleCopyId = () => {
     navigator.clipboard.writeText(sessionId);
     alert("Session ID copied!");
+  };
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/retrieve?sessionId=${sessionId}`;
+    navigator.clipboard.writeText(link);
+    alert("Shareable link copied!");
+  };
+
+  const getCountdown = () => {
+    if (!expiration) return null;
+    const diff = expiration - new Date();
+    if (diff <= 0) return "Expired";
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    const hours = Math.floor((diff / 1000 / 60 / 60) % 24);
+    const days = Math.floor(diff / 1000 / 60 / 60 / 24);
+    return `${days}d ${hours}h ${minutes}m left`;
   };
 
   return (
@@ -95,14 +86,15 @@ const Upload = () => {
 
       {sessionId && (
         <div className="session-container">
-          <span className="session-id">{sessionId}</span>
-          <button className="copy-button" onClick={handleCopy}>Copy</button>
+          <span className="session-id">Session ID: {sessionId}</span>
+          <button className="copy-button" onClick={handleCopyId}>Copy ID</button>
+          <button className="copy-link-button" onClick={handleCopyLink}>Copy Link</button>
         </div>
       )}
 
-      {countdown && (
+      {expiration && (
         <div className="countdown-timer">
-          <strong>Expires in:</strong> {countdown}
+          Expires in: <strong>{getCountdown()}</strong>
         </div>
       )}
     </div>
