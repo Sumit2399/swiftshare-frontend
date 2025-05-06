@@ -5,6 +5,8 @@ const Upload = () => {
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId") || "");
+  const [expiration, setExpiration] = useState(null);
+  const [countdown, setCountdown] = useState("");
 
   useEffect(() => {
     if (sessionId) {
@@ -14,6 +16,9 @@ const Upload = () => {
           if (response.data) {
             setText(response.data.text || "");
             setImage(response.data.image || "");
+            if (response.data.expiration) {
+              setExpiration(new Date(response.data.expiration));
+            }
           }
         })
         .catch((error) => console.error("Error fetching existing content:", error));
@@ -23,6 +28,27 @@ const Upload = () => {
   useEffect(() => {
     localStorage.setItem("sessionId", sessionId);
   }, [sessionId]);
+
+  useEffect(() => {
+    if (!expiration) return;
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const diff = new Date(expiration) - now;
+
+      if (diff <= 0) {
+        setCountdown("Expired");
+        clearInterval(interval);
+      } else {
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const hours = Math.floor((diff / 1000 / 60 / 60) % 24);
+        const days = Math.floor(diff / 1000 / 60 / 60 / 24);
+        setCountdown(`${days}d ${hours}h ${minutes}m`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [expiration]);
 
   const handlePaste = (e) => {
     const items = (e.clipboardData || window.clipboardData).items;
@@ -41,12 +67,13 @@ const Upload = () => {
       const response = await uploadContent({ text, image, sessionId }); // Send sessionId to overwrite
       setSessionId(response.data.sessionId);
       localStorage.setItem("sessionId", response.data.sessionId); // Save in localStorage
+      if (response.data.expiration) {
+        setExpiration(new Date(response.data.expiration));
+      }
     } catch (error) {
       console.error("Upload failed:", error);
     }
   };
-  
-  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(sessionId);
@@ -70,6 +97,12 @@ const Upload = () => {
         <div className="session-container">
           <span className="session-id">{sessionId}</span>
           <button className="copy-button" onClick={handleCopy}>Copy</button>
+        </div>
+      )}
+
+      {countdown && (
+        <div className="countdown-timer">
+          <strong>Expires in:</strong> {countdown}
         </div>
       )}
     </div>
